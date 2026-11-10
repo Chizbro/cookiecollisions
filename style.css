@@ -1,0 +1,110 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #8fd3ff; }
+body {
+  font-family: "Arial Rounded MT Bold", "Avenir Next Rounded", "Nunito", "Trebuchet MS", system-ui, sans-serif;
+  color: #fff; user-select: none; -webkit-user-select: none;
+}
+canvas { display: block; }
+.hidden { display: none !important; }
+kbd {
+  background: #fff; color: #222; border-radius: 5px; padding: 1px 6px; font: inherit; font-size: .85em;
+  box-shadow: 0 2px 0 #999;
+}
+
+/* ---------- HUD ---------- */
+#hud { position: fixed; inset: 0; pointer-events: none; text-shadow: 0 2px 0 rgba(0,0,0,.45); }
+.panel {
+  position: absolute; background: rgba(20, 90, 50, .82); border: 3px solid #ffd21a; border-radius: 14px;
+  padding: 8px 14px;
+}
+#tl { top: 14px; left: 14px; min-width: 150px; }
+#timer { font-size: 44px; line-height: 1; letter-spacing: 1px; }
+#timer.low { color: #ff5a4a; animation: pulse .5s infinite alternate; }
+#score { font-size: 20px; color: #ffd21a; margin-top: 2px; }
+#score::before { content: "★ "; }
+#tr { top: 14px; right: 14px; font-size: 15px; line-height: 1.6; text-align: right; letter-spacing: 1px; }
+#tr b { font-size: 20px; color: #ffd21a; margin-left: 6px; }
+#bl { bottom: 14px; left: 14px; width: 230px; }
+#speed { font-size: 34px; line-height: 1; }
+#speed small { font-size: 14px; opacity: .8; }
+.bar { height: 14px; background: rgba(0,0,0,.45); border-radius: 7px; margin-top: 6px; overflow: hidden; }
+#hpFill { height: 100%; width: 100%; background: #6fdc4b; border-radius: 7px; transition: width .15s; }
+#powers { font-size: 13px; margin-top: 6px; color: #ffe98a; min-height: 16px; }
+#map {
+  position: absolute; right: 14px; bottom: 14px; width: 200px; height: 200px;
+  border: 3px solid #ffd21a; border-radius: 14px;
+}
+#arrowWrap { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); text-align: center; }
+#arrow { font-size: 46px; line-height: 1; color: #ffd21a; transition: transform .08s linear; }
+#cpDist { font-size: 14px; letter-spacing: 1px; }
+#combo {
+  position: absolute; top: 24%; left: 50%; transform: translateX(-50%) scale(.6); opacity: 0;
+  font-size: 40px; color: #c9a3ff; white-space: nowrap; transition: opacity .25s, transform .25s;
+  text-shadow: 0 3px 0 #3a1a6a;
+}
+#combo.show { opacity: 1; transform: translateX(-50%) scale(1); }
+#banner {
+  position: absolute; top: 36%; left: 50%; transform: translate(-50%, -50%) scale(.7); opacity: 0;
+  text-align: center; transition: opacity .2s, transform .2s; white-space: nowrap;
+}
+#banner.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#bannerSub { font-size: 20px; color: #fff; }
+#bannerMain { font-size: 64px; color: #ffd21a; text-shadow: 0 4px 0 #145a32, 0 6px 12px rgba(0,0,0,.4); }
+#feed { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; font-size: 15px; }
+#feed div { background: rgba(0,0,0,.5); border-radius: 10px; padding: 3px 12px; margin-top: 4px; animation: fadeIn .2s; }
+.pop {
+  position: absolute; left: 0; top: 0; font-size: 22px; color: #ffd21a; white-space: nowrap;
+  will-change: transform; margin-left: -30px;
+}
+.pop.big { font-size: 32px; color: #fff; }
+.pop.bad { color: #ff6a5a; }
+.tagEl {
+  position: absolute; left: 0; top: 0; font-size: 12px; white-space: nowrap; text-align: center;
+  transform-origin: 0 0; will-change: transform;
+}
+.tagEl i { display: block; height: 4px; width: 60px; background: rgba(0,0,0,.5); border-radius: 2px; margin: 2px auto 0; overflow: hidden; }
+.tagEl i b { display: block; height: 100%; background: #ff5a4a; }
+
+/* ---------- Screens ---------- */
+.screen {
+  position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px; background: rgba(10, 30, 50, .55); text-align: center; padding: 16px; overflow-y: auto;
+}
+.sign {
+  background: #1e8a48; border: 6px solid #ffd21a; border-radius: 20px; padding: 6px 34px 10px;
+  box-shadow: 0 8px 0 rgba(0,0,0,.3); transform: rotate(-2deg);
+}
+.signTop {
+  display: inline-block; background: #ffd21a; color: #1e8a48; border-radius: 0 0 14px 14px;
+  padding: 0 16px 2px; font-size: 20px; margin-top: -6px;
+}
+.sign h1 { margin: 0; font-size: clamp(34px, 6vw, 68px); letter-spacing: 2px; text-shadow: 0 4px 0 #0f5a2c; }
+.tag { margin: 0; font-size: 17px; text-shadow: 0 2px 0 rgba(0,0,0,.5); }
+.tag b { color: #ffd21a; }
+#cards { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 1100px; }
+.card {
+  width: 168px; background: rgba(255,255,255,.12); border: 3px solid transparent; border-radius: 14px;
+  padding: 6px; cursor: pointer; transition: transform .12s, border-color .12s, background .12s;
+}
+.card:hover { transform: translateY(-3px); background: rgba(255,255,255,.2); }
+.card.sel { border-color: #ffd21a; background: rgba(255,210,26,.22); }
+.card img { width: 100%; border-radius: 9px; display: block; }
+.card h3 { margin: 5px 0 0; font-size: 15px; }
+.card .carName { font-size: 12px; opacity: .85; margin-bottom: 4px; }
+.stat { display: flex; align-items: center; gap: 5px; font-size: 10px; letter-spacing: 1px; }
+.stat span { width: 38px; text-align: left; opacity: .8; }
+.stat i { flex: 1; height: 6px; background: rgba(0,0,0,.4); border-radius: 3px; overflow: hidden; }
+.stat i b { display: block; height: 100%; background: #ffd21a; }
+.how { font-size: 13px; line-height: 1.9; background: rgba(0,0,0,.35); border-radius: 12px; padding: 6px 16px; }
+button {
+  font: inherit; font-size: 22px; color: #1e3a1e; background: #ffd21a; border: 0; border-radius: 14px;
+  padding: 10px 28px; cursor: pointer; box-shadow: 0 5px 0 #b88a00; letter-spacing: 1px;
+}
+button:hover { filter: brightness(1.08); }
+button:active { transform: translateY(3px); box-shadow: 0 2px 0 #b88a00; }
+button.alt { font-size: 15px; background: #fff; box-shadow: 0 4px 0 #999; }
+#endStats { font-size: 18px; line-height: 1.7; background: rgba(0,0,0,.35); border-radius: 12px; padding: 8px 24px; }
+#endStats b { color: #ffd21a; }
+
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

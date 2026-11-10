@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie Collisions</title>
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+
+<div id="hud" class="hidden">
+  <div id="tl" class="panel">
+    <div id="timer">1:30</div>
+    <div id="score">0</div>
+  </div>
+  <div id="tr" class="panel">
+    <div>FUZZIES <b id="hPeds"></b></div>
+    <div>RIVALS <b id="hRivals"></b></div>
+    <div>LAP <b id="hLap"></b></div>
+  </div>
+  <div id="arrowWrap"><div id="arrow">▲</div><div id="cpDist"></div></div>
+  <div id="bl" class="panel">
+    <div id="speed">0 <small>mph</small></div>
+    <div class="bar"><div id="hpFill"></div></div>
+    <div id="powers"></div>
+  </div>
+  <canvas id="map" width="200" height="200"></canvas>
+  <div id="combo"></div>
+  <div id="banner"><div id="bannerSub"></div><div id="bannerMain"></div></div>
+  <div id="feed"></div>
+  <div id="tags"></div>
+  <div id="pops"></div>
+</div>
+
+<div id="title" class="screen">
+  <div class="sign">
+    <div class="signTop">123</div>
+    <h1>COOKIE COLLISIONS</h1>
+  </div>
+  <p class="tag">Today's carnage is brought to you by the letter <b>C</b> and the number <b>88 mph</b>.</p>
+  <div id="cards"></div>
+  <div class="how">
+    <div><b>Win any way you like:</b> finish 3 laps · wreck every rival · flatten every fuzzy</div>
+    <div><kbd>W A S D</kbd>/<kbd>arrows</kbd> drive · <kbd>Space</kbd> handbrake · <kbd>H</kbd> horn · <kbd>R</kbd> repair (300 pts) · <kbd>C</kbd> camera · <kbd>M</kbd> mute · <kbd>P</kbd> pause</div>
+  </div>
+  <button id="startBtn">START YOUR ENGINE</button>
+</div>
+
+<div id="pause" class="screen hidden">
+  <div class="sign"><h1>NAP TIME</h1></div>
+  <p class="tag">Press <kbd>P</kbd> to resume · <kbd>Q</kbd> to quit to the street</p>
+</div>
+
+<div id="end" class="screen hidden">
+  <div class="sign"><h1 id="endTitle"></h1></div>
+  <p class="tag" id="endReason"></p>
+  <div id="endStats"></div>
+  <button id="againBtn">AGAIN! AGAIN!</button>
+  <button id="menuBtn" class="alt">PICK ANOTHER DRIVER</button>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
